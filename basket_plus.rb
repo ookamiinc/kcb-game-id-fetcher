@@ -1,4 +1,5 @@
 require 'mechanize'
+require 'byebug'
 
 require './firebase_client'
 require './teams'
@@ -47,7 +48,7 @@ class BasketPlus
       info = "#{date} | #{game_id} | #{home_team} vs #{away_team}"
       if date == '2018-09-02' && divisions_1_or_2?(home_team, away_team)
         puts info
-        save_to_firebase(game_id, home_team, away_team)
+        save_to_firebase(date, game_id, home_team, away_team)
       end
     end
   end
@@ -56,15 +57,18 @@ class BasketPlus
     Teams.include?(home_team) && Teams.include?(away_team)
   end
 
-  def save_to_firebase(game_id, home_team, away_team)
+  def save_to_firebase(date, game_id, home_team, away_team)
     firebase = FirebaseClient.new
+    res = firebase.get(game_id)
+    return unless res.body.nil?
     firebase.push(
-      'games',
+      game_id,
       {
-        id: game_id,
+        date: date,
         home_team: home_team,
         away_team: away_team
       }
     )
+    puts "Saved game_id=#{game_id}"
   end
 end

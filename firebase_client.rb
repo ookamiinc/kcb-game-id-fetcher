@@ -10,7 +10,11 @@ class FirebaseClient
     # @firebase = Firebase::Client.new(ENV['FIREBASE_URL'], private_key_json_string)
   end
 
-  def push(path, data)
-    @firebase.push(path, data)
+  def get(game_id)
+    @firebase.get("games/#{game_id}")
+  end
+
+  def push(game_id, data)
+    @firebase.push("games/#{game_id}", data)
   end
 end
