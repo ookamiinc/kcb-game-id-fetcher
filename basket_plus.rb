@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'mechanize'
-require 'byebug'
 
 require './firebase_client'
 require './teams'
+require './slack_client'
 
 class BasketPlus
   BASE_URL = 'https://basket-plus.jp'
@@ -70,5 +70,11 @@ class BasketPlus
       away_team: away_team
     )
     puts "Saved game_id=#{game_id}"
+    notify_slack(":new: #{date} | #{game_id} | #{home_team} vs #{away_team}")
+  end
+
+  def notify_slack(message)
+    slack = SlackClient.new
+    slack.notify(message)
   end
 end

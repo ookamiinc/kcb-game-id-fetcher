@@ -14,3 +14,6 @@ gem 'activesupport', '~> 5.0'
 
 # Real Time Database
 gem 'firebase'
+
+# Notifying Slack
+gem 'slack-ruby-client'
