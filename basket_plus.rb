@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'mechanize'
 require 'byebug'
 
@@ -5,13 +7,13 @@ require './firebase_client'
 require './teams'
 
 class BasketPlus
-  BASE_URL = 'https://basket-plus.jp'.freeze
+  BASE_URL = 'https://basket-plus.jp'
 
   def initialize
     login
   end
 
-  def get_game_ids
+  def search_games
     page = access_to_score_book
     return if page.nil?
     extract_game_infos(page)
@@ -63,11 +65,9 @@ class BasketPlus
     return unless res.body.nil?
     firebase.push(
       game_id,
-      {
-        date: date,
-        home_team: home_team,
-        away_team: away_team
-      }
+      date: date,
+      home_team: home_team,
+      away_team: away_team
     )
     puts "Saved game_id=#{game_id}"
   end
