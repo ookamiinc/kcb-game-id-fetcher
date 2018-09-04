@@ -43,7 +43,7 @@ class BasketPlus
     game_table = page.search('tbody > tr')
     game_table.drop(1).map do |element|
       game = create_games(element)
-      next unless game[:date] == '2018-09-02'
+      next unless game[:date] == today
       next unless divisions_1_or_2?(game[:home_team], game[:away_team])
       puts "#{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
       game
@@ -61,5 +61,9 @@ class BasketPlus
 
   def divisions_1_or_2?(home_team, away_team)
     Teams.include?(home_team) && Teams.include?(away_team)
+  end
+
+  def today
+    Time.now.strftime('%Y-%m-%d')
   end
 end
