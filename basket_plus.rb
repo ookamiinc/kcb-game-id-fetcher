@@ -1,6 +1,7 @@
 require 'mechanize'
 
 require './firebase_client'
+require './teams'
 
 class BasketPlus
   BASE_URL = 'https://basket-plus.jp'.freeze
@@ -44,9 +45,15 @@ class BasketPlus
       link = game.search('td[2] > a').attribute('href').value
       game_id = link.match(/game_id=(?<id>\d+)/)[:id]
       info = "#{date} | #{game_id} | #{home_team} vs #{away_team}"
-      puts info if date == '2018-09-02'
-      save_to_firebase(game_id, home_team, away_team)
+      if date == '2018-09-02' && divisions_1_or_2?(home_team, away_team)
+        puts info
+        save_to_firebase(game_id, home_team, away_team)
+      end
     end
+  end
+
+  def divisions_1_or_2?(home_team, away_team)
+    Teams.include?(home_team) && Teams.include?(away_team)
   end
 
   def save_to_firebase(game_id, home_team, away_team)
