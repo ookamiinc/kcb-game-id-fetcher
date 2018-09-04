@@ -12,6 +12,23 @@ class FirebaseClient
     # @firebase = Firebase::Client.new(ENV['FIREBASE_URL'], private_key_json_string)
   end
 
+  def save(games)
+    games.map do |game|
+      res = get(game[:id])
+      next unless res.body.nil?
+      push(
+        game[:id],
+        date: game[:date],
+        home_team: game[:home_team],
+        away_team: game[:away_team]
+      )
+      puts "Saved game_id=#{game[:id]}"
+      game
+    end.compact
+  end
+
+  private
+
   def get(game_id)
     @firebase.get("games/#{game_id}")
   end

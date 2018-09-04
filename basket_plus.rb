@@ -16,7 +16,7 @@ class BasketPlus
   def search_games
     page = access_to_score_book
     return if page.nil?
-    extract_game_infos(page)
+    extract_games(page)
   end
 
   private
@@ -39,42 +39,27 @@ class BasketPlus
     return nil
   end
 
-  def extract_game_infos(page)
-    games = page.search('tbody > tr')
-    games.drop(1).each do |game|
-      date = game.search('td[3]').text.strip
-      home_team = game.search('td[5]').text.strip
-      away_team = game.search('td[7]').text.strip
-      link = game.search('td[2] > a').attribute('href').value
-      game_id = link.match(/game_id=(?<id>\d+)/)[:id]
-      info = "#{date} | #{game_id} | #{home_team} vs #{away_team}"
-      if date == '2018-09-02' && divisions_1_or_2?(home_team, away_team)
-        puts info
-        save_to_firebase(date, game_id, home_team, away_team)
-      end
-    end
+  def extract_games(page)
+    game_table = page.search('tbody > tr')
+    game_table.drop(1).map do |element|
+      game = create_games(element)
+      next unless game[:date] == '2018-09-02'
+      next unless divisions_1_or_2?(game[:home_team], game[:away_team])
+      puts "#{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
+      game
+    end.compact
+  end
+
+  def create_games(element)
+    date = element.search('td[3]').text.strip
+    home_team = element.search('td[5]').text.strip
+    away_team = element.search('td[7]').text.strip
+    link = element.search('td[2] > a').attribute('href').value
+    game_id = link.match(/game_id=(?<id>\d+)/)[:id]
+    { date: date, id: game_id, home_team: home_team, away_team: away_team }
   end
 
   def divisions_1_or_2?(home_team, away_team)
     Teams.include?(home_team) && Teams.include?(away_team)
-  end
-
-  def save_to_firebase(date, game_id, home_team, away_team)
-    firebase = FirebaseClient.new
-    res = firebase.get(game_id)
-    return unless res.body.nil?
-    firebase.push(
-      game_id,
-      date: date,
-      home_team: home_team,
-      away_team: away_team
-    )
-    puts "Saved game_id=#{game_id}"
-    notify_slack(":new: #{date} | #{game_id} | #{home_team} vs #{away_team}")
-  end
-
-  def notify_slack(message)
-    slack = SlackClient.new
-    slack.notify(message)
   end
 end

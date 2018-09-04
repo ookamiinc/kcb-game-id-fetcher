@@ -10,5 +10,11 @@ include Clockwork
 
 every(1.minutes, "Get game_ids from Basket Plus's score book") do
   basket_plus = BasketPlus.new
-  basket_plus.search_games
+  games = basket_plus.search_games
+
+  firebase = FirebaseClient.new
+  saved_games = firebase.save(games)
+
+  slack = SlackClient.new
+  slack.notify(saved_games)
 end

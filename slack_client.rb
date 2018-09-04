@@ -10,7 +10,17 @@ class SlackClient
     @client.auth_test
   end
 
-  def notify(message)
-    @client.chat_postMessage(channel: '#kcb-test', text: message, as_user: false)
+  def notify(games)
+    games.each do |game|
+      @client.chat_postMessage(channel: '#kcb-test',
+                               text: message(game),
+                               as_user: false)
+    end
+  end
+
+  private
+
+  def message(game)
+    ":new: #{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
   end
 end
