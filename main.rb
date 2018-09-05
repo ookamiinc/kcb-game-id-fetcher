@@ -8,7 +8,7 @@ require './basket_plus'
 
 include Clockwork
 
-every(1.minutes, "Get game_ids from Basket Plus's score book") do
+every(3.minutes, "Get game_ids from Basket Plus's score book") do
   basket_plus = BasketPlus.new
   games = basket_plus.search_games
 
