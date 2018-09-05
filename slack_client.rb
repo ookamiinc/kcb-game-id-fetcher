@@ -21,6 +21,6 @@ class SlackClient
   private
 
   def message(game)
-    ":new: #{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
+    "<!channel> :new: #{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
   end
 end
