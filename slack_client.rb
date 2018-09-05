@@ -12,7 +12,7 @@ class SlackClient
 
   def notify(games)
     games.each do |game|
-      @client.chat_postMessage(channel: '#kcb-test',
+      @client.chat_postMessage(channel: '#kcb-notice',
                                text: message(game),
                                as_user: false)
     end
