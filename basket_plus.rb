@@ -2,9 +2,7 @@
 
 require 'mechanize'
 
-require './firebase_client'
 require './teams'
-require './slack_client'
 
 class BasketPlus
   BASE_URL = 'https://basket-plus.jp'
