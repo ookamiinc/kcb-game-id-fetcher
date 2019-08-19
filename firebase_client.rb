@@ -14,8 +14,7 @@ class FirebaseClient
 
   def save(games)
     games.map do |game|
-      res = get(game[:id])
-      next unless res.body.nil?
+      next if already_saved?(game)
       push(
         game[:id],
         date: game[:date],
@@ -35,5 +34,10 @@ class FirebaseClient
 
   def push(game_id, data)
     @firebase.push("games/#{game_id}", data)
+  end
+
+  def already_saved?(game)
+    res = get(game[:id])
+    !res.body.nil?
   end
 end
