@@ -1,5 +1,7 @@
 require 'slack-ruby-client'
 
+require './streams'
+
 class SlackClient
   def initialize
     Slack.configure do |config|
@@ -21,6 +23,11 @@ class SlackClient
   private
 
   def message(game)
-    "<!channel> :new: #{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
+    "<!channel> :new: #{game[:date]} | #{stream_id(game)},#{game[:id]} | " \
+    "#{game[:home_team]} vs #{game[:away_team]}"
+  end
+
+  def stream_id(game)
+    Streams.stream_id(game[:date], game[:home_team], game[:away_team]) || '?'
   end
 end
