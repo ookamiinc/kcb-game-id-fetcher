@@ -14,7 +14,7 @@ class SlackClient
     games.each do |game|
       @client.chat_postMessage(channel: '#kcb-notice',
                                text: message(game),
-                               as_user: false)
+                               as_user: true)
     end
   end
 
