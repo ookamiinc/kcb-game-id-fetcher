@@ -8,7 +8,7 @@ class FirebaseClient
     @firebase = Firebase::Client.new(ENV['FIREBASE_URL'], ENV['FIREBASE_SECRET'])
 
     # Using Firebase Admin SDK private key
-    # private_key_json_string = File.open('firebase-adminsdk.json').read
+    # private_key_json_string = File.open('firebase-adminsdk-fz5jd-c6ec071feb.json').read
     # @firebase = Firebase::Client.new(ENV['FIREBASE_URL'], private_key_json_string)
   end
 
