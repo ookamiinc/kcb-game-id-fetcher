@@ -42,7 +42,7 @@ class BasketPlus
     game_table.drop(1).map do |element|
       game = create_games(element)
       next unless game[:date] == today
-      next unless divisions_1_or_2?(game[:home_team], game[:away_team])
+      next unless divisions_1_or_2_or_3?(game[:home_team], game[:away_team])
       puts "#{game[:date]} | #{game[:id]} | #{game[:home_team]} vs #{game[:away_team]}"
       game
     end.compact
@@ -57,7 +57,7 @@ class BasketPlus
     { date: date, id: game_id, home_team: home_team, away_team: away_team }
   end
 
-  def divisions_1_or_2?(home_team, away_team)
+  def divisions_1_or_2_or_3?(home_team, away_team)
     Teams.include?(home_team) && Teams.include?(away_team)
   end
 
