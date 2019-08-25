@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Teams
-  # NOTE: The following 7 teams operate own games manually, so we don't need to be notified.
-  # 早稲田大学, 明治大学, 慶應義塾大学, 法政大学, 東洋大学, 駒澤大学, 東海大学
+  # NOTE: The following 6 teams operate own games manually, so we don't need to be notified.
+  # 明治大学, 慶應義塾大学, 法政大学, 東洋大学, 駒澤大学, 東海大学
   LIST = %w[
+    早稲田大学
     神奈川大学
     青山学院大学
     筑波大学
