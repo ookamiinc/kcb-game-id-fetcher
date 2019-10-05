@@ -2,7 +2,7 @@
 
 module Teams
   # NOTE: The following teams operate own games manually, so we don't need to be notified.
-  # 早稲田, 明治大学, 慶應義塾大学, 法政大学, 駒澤大学, 東海大学
+  # 早稲田大学, 明治大学, 慶應義塾大学, 法政大学, 駒澤大学, 東海大学
   LIST = %w[
     神奈川大学
     青山学院大学
