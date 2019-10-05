@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 module Teams
-  # NOTE: The following teams operate own games manually, so we don't need to be notified.
-  # 早稲田大学, 明治大学, 慶應義塾大学, 法政大学, 駒澤大学, 東海大学
   LIST = %w[
+    早稲田大学
+    明治大学
+    慶應義塾大学
+    法政大学
+    駒澤大学
+    東海大学
     神奈川大学
     青山学院大学
     筑波大学
@@ -36,7 +40,17 @@ module Teams
     桐蔭横浜大学
   ].freeze
 
+  # The following teams operate own games manually, so we don't need to be notified.
+  BLACK_LIST = %w[
+    早稲田大学
+    明治大学
+    慶應義塾大学
+    法政大学
+    駒澤大学
+    東海大学
+  ]
+
   def self.include?(name)
-    LIST.include?(name)
+    (LIST - BLACK_LIST).include?(name)
   end
 end
