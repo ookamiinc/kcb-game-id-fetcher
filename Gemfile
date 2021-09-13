@@ -18,4 +18,4 @@ gem 'activesupport', '~> 5.0'
 gem 'firebase'
 
 # Notifying Slack
-gem 'slack-ruby-client'
+gem 'httparty'
