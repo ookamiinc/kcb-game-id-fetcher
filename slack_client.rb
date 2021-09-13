@@ -1,26 +1,27 @@
-require 'slack-ruby-client'
+require 'httparty'
 
 require './streams'
 
 class SlackClient
   def initialize
-    Slack.configure do |config|
-      config.token = ENV['SLACK_API_TOKEN']
-    end
-
-    @client = Slack::Web::Client.new
-    @client.auth_test
+    @base_uri = ENV['SLACK_WEBHOOK_URL']
   end
 
   def notify(games)
     games.each do |game|
-      @client.chat_postMessage(channel: '#kcb-notice',
-                               text: message(game),
-                               as_user: true)
+      send_message(message(game))
     end
   end
 
   private
+
+  def send_message(message)
+    HTTParty.post(@base_uri, body: payload(message))
+  end
+
+  def payload(message)
+    { text: message }.to_json
+  end
 
   def message(game)
     "<!channel> :new: #{game[:date]} | #{stream_id(game)},#{game[:id]} | " \
