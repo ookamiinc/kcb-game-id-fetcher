@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby '2.4.4'
+ruby '2.6.6'
 
 # Manage ENV
 gem 'dotenv'
@@ -18,4 +18,4 @@ gem 'activesupport', '~> 5.0'
 gem 'firebase'
 
 # Notifying Slack
-gem 'slack-ruby-client'
+gem 'httparty'

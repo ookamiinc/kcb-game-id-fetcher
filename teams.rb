@@ -30,14 +30,14 @@ module Teams
     帝京平成大学
     玉川大学
     國學院大學
-    東京経済大学
-    埼玉大学
     明治学院大学
     国際武道大学
     西武文理大学
     東京成徳大学
     埼玉工業大学
     桐蔭横浜大学
+    亜細亜大学
+    文教大学
   ].freeze
 
   # The following teams operate own games manually, so we don't need to be notified.
